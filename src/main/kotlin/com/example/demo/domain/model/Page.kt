@@ -1,16 +1,29 @@
 package com.example.demo.domain.model
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.Id
+import jakarta.persistence.*
+import java.util.*
 
 @Entity
 data class Page(
     @Id
-    @GeneratedValue
-    val pageId: String,
+    @SequenceGenerator(
+        name = "page_id_sequence",
+        sequenceName = "page_id_sequence"
+    )
+    @GeneratedValue(
+        strategy = GenerationType.SEQUENCE,
+        generator = "page_id_sequence"
+    )
+    val id: Long,
+    /* = 0*/
+    val userId: Long,
     val pageName: String,
-    val workspaceId: String,
-    val parentPageId: String?,
-    val createdAt: String
+    val updatedAt: Date = Date(),
+    val createdAt: Date = Date(),
+)
+
+data class UpdatedPage(
+    val id: Long,
+    val userId: Long,
+    val pageName: String
 )

@@ -26,4 +26,35 @@ class GlobalExceptionHandler {
             HttpStatus.NOT_FOUND
         )
     }
+    @ExceptionHandler(InvalidUpdateResourceException::class)
+    fun handleInvalidUpdateResourceException(
+        exception: InvalidUpdateResourceException,
+        webRequest: WebRequest
+    ): ResponseEntity<ErrorDetails> {
+        val errorDetails = ErrorDetails(
+            timestamp = Date(),
+            message = exception.message!!,
+            details = webRequest.getDescription(false),
+        )
+        return ResponseEntity(
+            errorDetails,
+            HttpStatus.NOT_FOUND
+        )
+    }
+
+    /*@ExceptionHandler(Exception::class)
+    fun handleCommonException(
+        exception: Exception,
+        webRequest: WebRequest
+    ): ResponseEntity<ErrorDetails> {
+        val errorDetails = ErrorDetails(
+            timestamp = Date(),
+            message = exception.message!!,
+            details = webRequest.getDescription(false),
+        )
+        return ResponseEntity(
+            errorDetails,
+            HttpStatus.NOT_FOUND
+        )
+    }*/
 }
