@@ -1,6 +1,9 @@
 package com.example.demo.main.controller
 
+import com.example.demo.domain.dto.UserDTO
+import com.example.demo.domain.model.Page
 import com.example.demo.domain.model.User
+import com.example.demo.domain.repository.PageRepository
 import com.example.demo.domain.repository.UserRepository
 import com.example.demo.main.exception.ResourceNotFoundException
 import jakarta.validation.Valid
@@ -14,18 +17,23 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 class UserController {
     @Autowired
     private lateinit var userRepository: UserRepository
+    @Autowired
+    private lateinit var pageRepository: PageRepository
 
     @GetMapping
-    fun getAllUsers() = userRepository.findAll()
+    fun getAllUsers(): List<User> {
+        return userRepository.findAll()
+    }
 
-    @PostMapping()
-    fun createUser(@Valid @RequestBody user: User): ResponseEntity<User> {
-        val savedUser = userRepository.save(user)
+    @PostMapping
+    fun createUser(@Valid @RequestBody user: UserDTO): ResponseEntity<User> {
+        val convertedFromDTO = user.convertToEntity()
+        val savedUser = userRepository.save(convertedFromDTO)
 
         val location = ServletUriComponentsBuilder
             .fromCurrentRequest()
             .path("/{id}")
-            .buildAndExpand(user.id)
+            .buildAndExpand(savedUser.id)
             .toUri()
         return ResponseEntity.created(location).build()
     }
@@ -41,5 +49,40 @@ class UserController {
             )
         }
         return userWithId.get()
+    }
+
+    @GetMapping("{id}/posts")
+    fun getPageForUser(@PathVariable id: Long): List<Page> {
+        /*return pageRepository.findByUserId(userId = userId)*/
+        val user = userRepository.findById(id)
+        if (user.isEmpty) {
+            throw ResourceNotFoundException(
+                resourceName = "user",
+                fieldName = "id",
+                fieldValue = id,
+            )
+        }
+        return pageRepository.findAll()
+    }
+
+    @PostMapping("{id}/posts")
+    fun createPageForUser(@PathVariable id: Long, @RequestBody page: Page): ResponseEntity<Page> {
+        /*return pageRepository.findByUserId(userId = userId)*/
+        val user = userRepository.findById(id)
+        if (user.isEmpty) {
+            throw ResourceNotFoundException(
+                resourceName = "user",
+                fieldName = "id",
+                fieldValue = id,
+            )
+        }
+        val savedPage = pageRepository.save(page)
+
+        val location = ServletUriComponentsBuilder
+            .fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(savedPage.id)
+            .toUri()
+        return ResponseEntity.created(location).build()
     }
 }

@@ -18,11 +18,6 @@ class PageController {
     @Autowired
     private lateinit var pageRepository: PageRepository
 
-    @GetMapping(path = ["{userId}"])
-    fun getPageWithUserId(@PathVariable userId: Long): List<Page> {
-        return pageRepository.findByUserId(userId = userId)
-    }
-
     @GetMapping
     fun getAllPages(): List<Page> = pageRepository.findAll()
 
@@ -45,7 +40,7 @@ class PageController {
         return ResponseEntity.created(location).build()
     }
 
-    @PutMapping
+    /*@PutMapping
     fun updatePage(@RequestBody page: UpdatedPage): ResponseEntity<Page> {
         val oldPage = pageRepository.findById(page.id)
         if (oldPage.isEmpty) {
@@ -75,5 +70,5 @@ class PageController {
             .buildAndExpand(updatedPage.id)
             .toUri()
         return ResponseEntity.created(location).build()
-    }
+    }*/
 }

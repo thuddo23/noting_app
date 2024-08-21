@@ -20,7 +20,12 @@ data class Page(
     val pageName: String,
     val updatedAt: Date = Date(),
     val createdAt: Date = Date(),
-)
+) {
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    lateinit var user: User
+        private set
+}
 
 data class UpdatedPage(
     val id: Long,
