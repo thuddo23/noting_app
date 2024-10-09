@@ -24,7 +24,7 @@ data class User(
     val updatedAt: Date?
 ) {
 
-    @OneToMany(mappedBy = "user")
+ /*   @OneToMany(mappedBy = "userId")
     lateinit var pages: List<Page>
-    private set
+    private set*/
 }

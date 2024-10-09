@@ -22,9 +22,9 @@ data class Page(
     val createdAt: Date = Date(),
 ) {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+   /* @ManyToOne(fetch = FetchType.LAZY)
     lateinit var user: User
-        private set
+        private set*/
 }
 
 data class UpdatedPage(
