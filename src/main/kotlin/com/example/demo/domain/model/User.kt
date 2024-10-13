@@ -43,7 +43,7 @@ data class User(
     @LastModifiedDate
     val updatedAt: LocalDateTime = LocalDateTime.now(),
 ) {
-    /*   @OneToMany(mappedBy = "userId")
+    /*@OneToMany(mappedBy = "userId")
        lateinit var pages: List<Page>
        private set*/
 }

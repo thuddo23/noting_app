@@ -26,20 +26,28 @@ class UserController {
 
     @Operation(
         description = "Get all Users",
-        /*responses = {
-            *//*@ApiResponse(
+        responses = [
+            ApiResponse(
                 responseCode = "200",
-                description = "Successfully get project!",
-                *//**//*content = @Content(
-                    mediaType = "application/json",
-                    examples = {
-                        @ExampleObject(
-                            value = "{}"
-                        )
-                    }
-                )*//**//*
-            )*//*
-        }*/
+                description = "Successfully get users!", // Changed to "users"
+                content = [
+                    Content(
+                        mediaType = "application/json",
+                        examples = [
+                            ExampleObject(
+                                value = """
+                            {
+                                "code" : 200, 
+                                "Status": "OK", 
+                                "Message" : "Successfully retrieved users!" 
+                            }
+                            """,
+                            ),
+                        ],
+                    ),
+                ],
+            ),
+        ],
     )
     @GetMapping
     fun getAllUsers(): List<User> {
@@ -47,8 +55,8 @@ class UserController {
     }
 
     @PostMapping
-    fun createUser(@Valid @RequestBody user: User): ResponseEntity<User> {
-        val convertedFromDTO = user
+    fun createUser(@Valid @RequestBody user: UserDTO): ResponseEntity<User> {
+        val convertedFromDTO = user.convertToEntity()
         val savedUser = userRepository.save(convertedFromDTO)
 
         val location = ServletUriComponentsBuilder
