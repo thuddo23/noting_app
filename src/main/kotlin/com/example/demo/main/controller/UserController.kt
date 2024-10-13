@@ -24,31 +24,31 @@ class UserController {
     @Autowired
     private lateinit var pageRepository: PageRepository
 
-    @GetMapping
     @Operation(
         description = "Get all Users",
-        responses = {
-            @ApiResponse(
+        /*responses = {
+            *//*@ApiResponse(
                 responseCode = "200",
                 description = "Successfully get project!",
-                /*content = @Content(
+                *//**//*content = @Content(
                     mediaType = "application/json",
                     examples = {
                         @ExampleObject(
                             value = "{}"
                         )
                     }
-                )*/
-            )
-        }
+                )*//**//*
+            )*//*
+        }*/
     )
+    @GetMapping
     fun getAllUsers(): List<User> {
         return userRepository.findAll()
     }
 
     @PostMapping
-    fun createUser(@Valid @RequestBody user: UserDTO): ResponseEntity<User> {
-        val convertedFromDTO = user.convertToEntity()
+    fun createUser(@Valid @RequestBody user: User): ResponseEntity<User> {
+        val convertedFromDTO = user
         val savedUser = userRepository.save(convertedFromDTO)
 
         val location = ServletUriComponentsBuilder

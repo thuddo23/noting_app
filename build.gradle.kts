@@ -28,6 +28,8 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.postgresql:postgresql")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+	compileOnly("org.projectlombok:lombok")
+	annotationProcessor("org.projectlombok:lombok")
 
 	runtimeOnly("com.mysql:mysql-connector-j")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
