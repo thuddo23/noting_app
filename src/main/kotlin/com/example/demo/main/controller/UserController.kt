@@ -6,6 +6,10 @@ import com.example.demo.domain.model.User
 import com.example.demo.domain.repository.PageRepository
 import com.example.demo.domain.repository.UserRepository
 import com.example.demo.main.exception.ResourceNotFoundException
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.ExampleObject
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -20,6 +24,31 @@ class UserController {
     @Autowired
     private lateinit var pageRepository: PageRepository
 
+    @Operation(
+        description = "Get all Users",
+        responses = [
+            ApiResponse(
+                responseCode = "200",
+                description = "Successfully get users!", // Changed to "users"
+                content = [
+                    Content(
+                        mediaType = "application/json",
+                        examples = [
+                            ExampleObject(
+                                value = """
+                            {
+                                "code" : 200, 
+                                "Status": "OK", 
+                                "Message" : "Successfully retrieved users!" 
+                            }
+                            """,
+                            ),
+                        ],
+                    ),
+                ],
+            ),
+        ],
+    )
     @GetMapping
     fun getAllUsers(): List<User> {
         return userRepository.findAll()

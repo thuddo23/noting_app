@@ -28,11 +28,10 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.postgresql:postgresql")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+	compileOnly("org.projectlombok:lombok")
+	annotationProcessor("org.projectlombok:lombok")
 
 	runtimeOnly("com.mysql:mysql-connector-j")
-//	implementation ("io.springfox:springfox-boot-starter:3.0.0")
-	/*implementation ("io.springfox:springfox-swagger2:3.0.0")
-	implementation ("io.springfox:springfox-swagger-ui:3.0.0")*/
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
